@@ -43,7 +43,7 @@ git submodule foreach | while read entering path; do
     [ "$path" = "" ] && continue
     [[ ! "$path" =~ ^"${PLUGIN_NAME}" ]] && echo "skipping non-plugin submodule $path" && continue
     pushd ${path} > /dev/null
-    git archive --prefix=${path}/ HEAD > /tmp/tmp.tar
+    git archive --prefix=${PLUGIN_NAME}/${path}/ HEAD > /tmp/tmp.tar
     tar --concatenate --file=${CURDIR}/${PLUGIN_NAME}-${RELEASE_VERSION}.tar /tmp/tmp.tar
     rm /tmp/tmp.tar
     popd > /dev/null
