@@ -63,8 +63,9 @@ def create_release(release_files, changelog="", output="") -> str:
 
     # if a release exist with this tag_name delete it first
     # this allows to create the release from github website
-    url = '/repos/{repo_slug}/releases/latest'.format(
-        repo_slug=os.environ['TRAVIS_REPO_SLUG'])
+    url = '/repos/{repo_slug}/releases/tags/{tag}'.format(
+        repo_slug=os.environ['TRAVIS_REPO_SLUG'],
+        tag=os.environ['TRAVIS_TAG'])
     conn = http.client.HTTPSConnection('api.github.com')
     conn.request('GET', url, headers=headers)
     response = conn.getresponse()

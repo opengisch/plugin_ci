@@ -14,7 +14,7 @@ fi
 export PLUGIN_NAME=$(echo $TRAVIS_REPO_SLUG | ${GP}sed -r 's#^[^/]+/(qgis_)?([^/]+)$#\2#')
 
 # remove potential revision
-export RELEASE_VERSION=$(${GP}sed -r 's/-\w+$//' <<< ${TRAVIS_TAG})
+export RELEASE_VERSION=$(${GP}sed -r 's/-\w+$//; s/^v//' <<< ${TRAVIS_TAG})
 
 # Inject metadata version from git tag
 ${GP}sed -r -i "s/^version=.*\$/version=${TRAVIS_TAG}/" $PLUGIN_NAME/metadata.txt
