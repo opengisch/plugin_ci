@@ -19,16 +19,18 @@ export TAG_VERSION=${TRAVIS_TAG}
 export RELEASE_VERSION=$(${GP}sed -r 's/-\w+$//; s/^v//' <<< ${TRAVIS_TAG})
 
 # Inject metadata version from git tag
-${GP}sed -r -i "s/^version=.*\$/version=${TRAVIS_TAG}/" ${REPO_NAME}/${PLUGIN_NAME}/metadata.txt
+${GP}sed -r -i "s/^version=.*\$/version=${RELEASE_VERSION}/" ${PLUGIN_NAME}/metadata.txt
 
 # Ensure DEBUG is False in main plugin file
-${GP}sed -r -i 's/^DEBUG\s*=\s*True/DEBUG = False/' ${REPO_NAME}/${PLUGIN_NAME}_plugin.py
+${GP}sed -r -i 's/^DEBUG\s*=\s*True/DEBUG = False/' ${PLUGIN_NAME}/${PLUGIN_NAME}_plugin.py
 
 ${DIR}/../translate/update-translations.sh
 
 # Tar up all the static files from the git directory
 echo -e " \e[33mExporting plugin version ${TRAVIS_TAG} from folder ${PLUGIN_NAME}"
-git archive --prefix=${PLUGIN_NAME}/ -o $PLUGIN_NAME-$RELEASE_VERSION.tar HEAD ${PLUGIN_NAME} #${TRAVIS_TAG}:${PLUGIN_NAME}
+# create a stash to save uncommitted changes (metadata)
+STASH=$(git stash create)
+git archive --prefix=${PLUGIN_NAME}/ -o $PLUGIN_NAME-$RELEASE_VERSION.tar $STASH ${PLUGIN_NAME}
 
 # Extract to a temporary location and add translations
 TEMPDIR=/tmp/build-${PLUGIN_NAME}
