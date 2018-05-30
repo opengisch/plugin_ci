@@ -11,7 +11,10 @@ if [[ "$OSTYPE" =~ darwin* ]]; then
   GP=g
 fi
 
-PLUGIN_NAME=$(echo $TRAVIS_REPO_SLUG | ${GP}sed -r 's#^[^/]+/(qgis_)?([^/]+)$#\2#')
+export PLUGIN_NAME=$(echo $TRAVIS_REPO_SLUG | ${GP}sed -r 's#^[^/]+/(qgis_)?([^/]+)$#\2#')
+
+# remove potential revision
+export RELEASE_VERSION=$(${GP}sed -r 's/-\w+$//' <<< ${TRAVIS_TAG})
 
 # Inject metadata version from git tag
 ${GP}sed -r -i "s/^version=.*\$/version=${TRAVIS_TAG}/" $PLUGIN_NAME/metadata.txt
@@ -19,8 +22,6 @@ ${GP}sed -r -i "s/^version=.*\$/version=${TRAVIS_TAG}/" $PLUGIN_NAME/metadata.tx
 # Ensure DEBUG is False in main plugin file
 ${GP}sed -r -i 's/^DEBUG\s*=\s*True/DEBUG = False/' ${PLUGIN_NAME}/${PLUGIN_NAME}_plugin.py
 
-
-export RELEASE_VERSION=${TRAVIS_TAG}
 ${DIR}/../translate/update-translations.sh
 
 # Tar up all the static files from the git directory
