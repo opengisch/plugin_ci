@@ -1,9 +1,11 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # coding=utf-8
 """This script uploads a plugin package to the repository.
         Authors: A. Pasotti, V. Picavet
         git sha              : $TemplateVCSFormat
 """
+from __future__ import print_function
+from future import standard_library
 
 import sys
 import getpass
@@ -12,6 +14,8 @@ import json
 import http.client
 import os
 from optparse import OptionParser
+
+standard_library.install_aliases()
 
 # Configuration
 PROTOCOL = 'https'
