@@ -28,7 +28,7 @@ __revision__ = '$Format:%H$'
 import http.client
 import os
 import json
-from optparse import OptionParser
+import argparse
 
 
 def create_release(release_files, changelog="", output="") -> str:
@@ -128,7 +128,7 @@ def create_release(release_files, changelog="", output="") -> str:
 
 
 if __name__ == "__main__":
-    parser = OptionParser(usage="%prog")
+    parser = argparse.ArgumentParser()
     parser.add_argument(
         "-c", "--changelog", help="Detailed changelog (appended to the one entered online)")
     parser.add_argument(
