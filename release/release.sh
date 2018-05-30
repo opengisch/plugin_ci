@@ -11,6 +11,11 @@ if [[ "$OSTYPE" =~ darwin* ]]; then
   GP=g
 fi
 
+if [[ ! ${TRAVIS_SECURE_ENV_VARS} == "true" || ! ${TRAVIS_BRANCH} == "master"  || -z ${TRAVIS_TAG}  ]]; then
+  echo "Not releasing: not on main repo or master branch or missing tag"
+  exit 1
+fi
+
 export REPO_NAME=$(echo $TRAVIS_REPO_SLUG | ${GP}sed -r 's#^[^/]+/([^/]+)$#\1#')
 export PLUGIN_NAME=$(echo $TRAVIS_REPO_SLUG | ${GP}sed -r 's#^[^/]+/(qgis_)?([^/]+)$#\2#')
 
@@ -24,7 +29,9 @@ ${GP}sed -r -i "s/^version=.*\$/version=${RELEASE_VERSION}/" ${PLUGIN_NAME}/meta
 # Ensure DEBUG is False in main plugin file
 ${GP}sed -r -i 's/^DEBUG\s*=\s*True/DEBUG = False/' ${PLUGIN_NAME}/${PLUGIN_NAME}_plugin.py
 
-${DIR}/../translate/update-translations.sh
+# Pull translations from transifx
+${DIR}/pull-transifex-translations.sh
+${DIR}/compile-strings.sh i18n/*.ts
 
 # Tar up all the static files from the git directory
 echo -e " \e[33mExporting plugin version ${TRAVIS_TAG} from folder ${PLUGIN_NAME}"

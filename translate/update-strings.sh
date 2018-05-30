@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/env/bin bash
+
 LOCALES=$*
 
 # GNU prefix command for mac os support (gsed, gsplit)

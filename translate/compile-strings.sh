@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/env/bin bash
+
 if [ -z ${LRELEASE+x} ];
 then
   echo "$LRELEASE is not set, defaulting to lrelease"
