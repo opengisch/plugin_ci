@@ -75,6 +75,7 @@ def create_release(release_files, changelog="", output="") -> str:
         url = '/repos/{repo_slug}/releases/{id}'.format(
             repo_slug=os.environ['TRAVIS_REPO_SLUG'],
             id=release['id'])
+        print(url)
         conn = http.client.HTTPSConnection('api.github.com')
         conn.request('DELETE', url, headers=headers)
         response = conn.getresponse()
