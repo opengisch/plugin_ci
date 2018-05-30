@@ -31,7 +31,7 @@ import json
 from optparse import OptionParser
 
 
-def create_release(release_files, changelog="") -> str:
+def create_release(release_files, changelog="", output="") -> str:
     """
     Publish the files in a release on github
     If a release already exist, it will copy its data (title, description, etc),
@@ -122,7 +122,9 @@ def create_release(release_files, changelog="") -> str:
             print('{} {}'.format(response.status, response.reason))
             print(repr(json.loads(result.decode())))
 
-    return release_notes
+    if output:
+        with open(output, 'w') as f:
+            f.write(release_notes)
 
 
 if __name__ == "__main__":
@@ -130,6 +132,8 @@ if __name__ == "__main__":
     parser.add_argument(
         "-c", "--changelog", help="Detailed changelog (appended to the one entered online)")
     parser.add_argument(
+        "-o", "--output", help="Write release notes to output files")
+    parser.add_argument(
         '-f', '--file', help='File to add to the release', action='append')
     args = parser.parse_args()
-    print(create_release(args.file, args.changelog))
+    create_release(args.file, args.changelog, args.output)
