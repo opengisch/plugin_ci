@@ -44,4 +44,5 @@ echo "## Detailed changelod" > /tmp/changelog
 git log HEAD^...$(git describe --abbrev=0 --tags HEAD^) --pretty=format:"### %s%n%n%b" >> /tmp/changelog
 
 ${DIR}/publish_release.py -f ${CURDIR}/${PLUGIN_NAME}-${TAG_VERSION}.zip -c /tmp/changelog -o /tmp/release_notes
+cat /tmp/release_notes
 ${DIR}/publish_plugin.py -u "${OSGEO_USERNAME}" -w "${OSGEO_PASSWORD}" -r "${TRAVIS_TAG}" ${PLUGIN_NAME}-${TAG_VERSION}.zip -c /tmp/release_notes
