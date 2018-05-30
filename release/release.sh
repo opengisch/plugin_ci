@@ -19,10 +19,10 @@ export TAG_VERSION=${TRAVIS_TAG}
 export RELEASE_VERSION=$(${GP}sed -r 's/-\w+$//; s/^v//' <<< ${TRAVIS_TAG})
 
 # Inject metadata version from git tag
-${GP}sed -r -i "s/^version=.*\$/version=${TRAVIS_TAG}/" $PLUGIN_NAME/metadata.txt
+${GP}sed -r -i "s/^version=.*\$/version=${TRAVIS_TAG}/" ${REPO_NAME}/${PLUGIN_NAME}/metadata.txt
 
 # Ensure DEBUG is False in main plugin file
-${GP}sed -r -i 's/^DEBUG\s*=\s*True/DEBUG = False/' ${PLUGIN_NAME}/${PLUGIN_NAME}_plugin.py
+${GP}sed -r -i 's/^DEBUG\s*=\s*True/DEBUG = False/' ${REPO_NAME}/${PLUGIN_NAME}_plugin.py
 
 ${DIR}/../translate/update-translations.sh
 
