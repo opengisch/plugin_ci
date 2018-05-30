@@ -30,7 +30,23 @@ ${DIR}/../translate/update-translations.sh
 echo -e " \e[33mExporting plugin version ${TRAVIS_TAG} from folder ${PLUGIN_NAME}"
 # create a stash to save uncommitted changes (metadata)
 STASH=$(git stash create)
-git archive --prefix=${PLUGIN_NAME}/ -o $PLUGIN_NAME-$RELEASE_VERSION.tar $STASH ${PLUGIN_NAME}
+git archive --prefix=${PLUGIN_NAME}/ -o ${PLUGIN_NAME}-${RELEASE_VERSION}.tar $STASH ${PLUGIN_NAME}
+
+# include submodules as part of the tar
+echo "also archive submodules..."
+git submodule foreach | while read entering path; do
+    temp="${path%\'}"
+    temp="${temp#\'}"
+    path=${temp}
+    [ "$path" = "" ] && continue
+    [[ ! "$path" =~ ^"${PLUGIN_NAME}" ]] && echo "skipping non-plugin submodule $path" && continue
+    pushd ${path} > /dev/null
+    git archive --prefix=${path}/ HEAD > /tmp/tmp.tar
+    gtar --concatenate --file=${CURDIR}/${PLUGIN_NAME}-${RELEASE_VERSION}.tar /tmp/tmp.tar
+    rm /tmp/tmp.tar
+    popd > /dev/null
+done
+
 
 # Extract to a temporary location and add translations
 TEMPDIR=/tmp/build-${PLUGIN_NAME}
