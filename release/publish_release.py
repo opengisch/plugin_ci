@@ -124,6 +124,7 @@ def create_release(release_files, changelog="", output="") -> str:
 
     if output:
         with open(output, 'w') as f:
+            print("Writing release notes")
             f.write(release_notes)
 
 
