@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # If we are on the master branch and not on a fork, upload translation strings
