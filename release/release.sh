@@ -14,6 +14,7 @@ fi
 export PLUGIN_NAME=$(echo $TRAVIS_REPO_SLUG | ${GP}sed -r 's#^[^/]+/(qgis_)?([^/]+)$#\2#')
 
 # remove potential revision
+export TAG_VERSION=${TRAVIS_TAG}
 export RELEASE_VERSION=$(${GP}sed -r 's/-\w+$//; s/^v//' <<< ${TRAVIS_TAG})
 
 # Inject metadata version from git tag
@@ -35,11 +36,11 @@ tar -xf ${PLUGIN_NAME}-${RELEASE_VERSION}.tar -C ${TEMPDIR}
 mv i18n/*.qm ${TEMPDIR}/${PLUGIN_NAME}/${PLUGIN_NAME}/i18n
 
 pushd ${TEMPDIR}/${PLUGIN_NAME}
-zip -r ${CURDIR}/${PLUGIN_NAME}-${RELEASE_VERSION}.zip ${PLUGIN_NAME}
+zip -r ${CURDIR}/${PLUGIN_NAME}-${TAG_VERSION}.zip ${PLUGIN_NAME}
 popd
 
 echo "## Detailed changelod" > /tmp/changelog
 git log HEAD^...$(git describe --abbrev=0 --tags HEAD^) --pretty=format:"### %s%n%n%b" >> /tmp/changelog
 
-${DIR}/publish_release.py -f $PLUGIN_NAME-$RELEASE_VERSION.zip -c /tmp/changelog -o /tmp/release_notes
-${DIR}/publish_plugin.py -u "${OSGEO_USERNAME}" -w "${OSGEO_PASSWORD}" -r "${TRAVIS_TAG}" $PLUGIN_NAME-$RELEASE_VERSION.zip -c /tmp/release_notes
+${DIR}/publish_release.py -f ${CURDIR}/$PLUGIN_NAME-TAG_VERSION.zip -c /tmp/changelog -o /tmp/release_notes
+${DIR}/publish_plugin.py -u "${OSGEO_USERNAME}" -w "${OSGEO_PASSWORD}" -r "${TRAVIS_TAG}" $PLUGIN_NAME-TAG_VERSION.zip -c /tmp/release_notes
