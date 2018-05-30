@@ -32,10 +32,18 @@ script:
 
 env:
   global:
-    - OSGEO_USERNAME=3nids
-    # Inject OSGEO_PASSWORD matching the OSGEO_USERNAME
+    # OSGEO credentials to release the plugin
+    # Generate with the following command for proper special characters support
     # travis encrypt OSGEO_PASSWORD=\''Your super secret password!'\'
+    - OSGEO_USERNAME=3nids
     - secure: "JTcQtn4nvMevskR2A6ebIOnxNVpui/Rum6o4Gz6W4QiLM6WEK8QhLufB/v34j3l0kLrlXF1gbuEv/Jgq85FhOW+a5sAz3zr23yEph924oUW4b5EawFDkx3etFXaKtOLKLAbFo2eWA2lXS2c5vtbnmQ+aeTUDulw9OOZKv/HypvpZsWSa7MnSXrNX+b9pYl2Axpc1oyhvci7q0xapsZOk8O1m15JCR0Oh5KZPlUn8fSBA2ARn70e/SKjVaCtQuuFDL6Pe+0CB2bAkQDnBY9ajvd5DIBCDMwq+8UxpiA5bj9qV4zXo0MyUWb3sgiU54tzgGgsiDbGJ8/fcrHEcJhu/nhAeVGOtDKF4+WmbtASiuIJqGOE8Qy7WDXHntLck31E0zFV85ScW5dcGvCzBDT7RKTdFG07p9zQGTKX785FGEjBkopIEvPs60kORog6MKLMFvLTNsjrvQnie2Fn8NYQ+vKYunqgbbBkCEvX7OXGrk87NrX6YtxwJQ5J3bPdh7TxL83Jfe5O+Clq5if8M7YDKDnP+QP5t+eF+WNDHaIAFIr0jTcop2d9acOBKSabbC8eTAXayu8V3JywqDS4jJdnd1ifQs9/vO8Qi8qsw+pBJBoHJ2PGfwbSgIhyS5YZBKA31Rxw8RFJpvs6HIDLeQyzdnh6zLAP3SQGPWHY1al9JUhQ="
-    # Transifex API token
+
+    # TRANSIFEX_API_TOKEN, generated on Transifex website
     # travis encrypt TX_TOKEN="......"
     - secure: "BWqMLP66AkFIrPxFOH1MxiMjLctpo6ZZYCwY3/eTumZ1eP/+YC0uKQduIJUKIqLtXNVaH8YGs2VfpFUD0QguAOvsk0fnR90qWZPwS+cAecq0MwnvmmrQk3/P0xBqaDGtE6G4OF4eKyB10ZohHEHE3BIMhiZkZvZAJ8ngNGYU6dL1l1kTBPXj0wucE17RAn9MIzr7YbO16WmkPEl2nEhjh9+2S0bv1nqp1Z2we4kjCQk9TvrvxCrY+Ow037HKgxfTQd0GU2WLJPmzc9Jf1bikf4Cdx6KusyVhI2u2GeMElQZhkVacgy8iuzf9DQGRLOx/1XMcv+jlWexgcADE/oGsBAcejByUAIs4nc4Sj/rcE2I8G6UTAd/dKMktWgTmTO0KhICJLKksbGYhZ9nP9TTWeL99vJTH2HlQMUcn8UHhQLv0bo4SoA8gKGgKajRs8LKPZ//hhxicSlMhPKxO8k2nwUhZJsGFsTZQTZtvErXUPFZhmWwfoYWS4rfIw4Sl0WqlgsN3PHJanmuQUCulIkVOz3O7iE9gNtflCrp/amfwe2leQ+85mbVGmNAEWn4qcMpqK+cnsepRCRO5Qj0Wkfitw+pFk4oTptcyFwyqF3ItWOgrr866ULIU3D4Uk1M6+xMz2Q328SCbBrm4n/sQM3bwE53QQ4bQUWr0S8S8RrKdpdY="
+
+    # GH_TOKEN for creating releases
+    # https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line
+    # authrize only "repo_deployment"
+    # travis encrypt GH_TOKEN="......"
+    - secure: "f2iHNi2Z95mjjBBtSwjBdU/Jxqp79Bppln5zCe0slK3aARKqiO/HLCeSMg6hjyQJpP+MzpzdHyHfLEMPzg6W0EcfIoCYgELfqHGKTmSgT2NOVLjL8TTn8M8yTCn1Nd4scYY4GFP4loxCv8tTYX9X4j+M1KoKT97tXLQc72jtMTqhqcp/elYrzNgu78G8rhloyy+F34A6enRfcxGrD6DBZ4chwDmVrAybFzOsAuDxI4nOWPqcF4NG/+nJeomzxba5eATMbUbCgDNXMoXRjg3qL3I5zzlyoq/Gte4yQLNXDP79AarbAJtNJmJMI/2k20DjD3MhoWc+eAT2bK8TjMNDRrvTg0geBGta1AI9/eo/QJRbdm6d6TkAvjn3NhNUR7P2XwHzWm+kndqxE37GRZSZEmjnc1ZQpnASnkoApDaQKnDqTM2eB72I6pzg++fs3URWKfV4E4T0rpeIfIJWGkJ2Ar9KTdX9KeJ1goM16mxiWTWZjnTn6MQ8KBj2PEzaXsihUEkC63W1g1gz15aZngXDyAaBHR7aCnsiJHKfLZgDirR09pNEb89p5ETl2QvPnFSLkT23fsdJ5Ac6rI6wWzcSJtYOTGPhIg449J0a9iRm3Fj+E6m2xPS/GdrbmvOEUXeLAhrvmrbJWGaMGnNl0P5G8zwG4LpZHxJMb1pKqnhNqE8="
