@@ -32,8 +32,6 @@ echo -e " \e[33mExporting plugin version ${TRAVIS_TAG} from folder ${PLUGIN_NAME
 STASH=$(git stash create)
 git archive --prefix=${PLUGIN_NAME}/ -o ${CURDIR}/${PLUGIN_NAME}-${RELEASE_VERSION}.tar $STASH ${PLUGIN_NAME}
 
-tar tvf ${CURDIR}/${PLUGIN_NAME}-${RELEASE_VERSION}.tar
-
 # include submodules as part of the tar
 echo "also archive submodules..."
 git submodule foreach | while read entering path; do
@@ -48,8 +46,6 @@ git submodule foreach | while read entering path; do
     rm /tmp/tmp.tar
     popd > /dev/null
 done
-
-tar tvf ${CURDIR}/${PLUGIN_NAME}-${RELEASE_VERSION}.tar
 
 # Extract to a temporary location and add translations
 TEMPDIR=/tmp/build-${PLUGIN_NAME}
