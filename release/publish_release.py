@@ -45,7 +45,7 @@ def create_release(release_files, changelog="", output="") -> str:
     elif os.environ['TRAVIS_SECURE_ENV_VARS'] != 'true':
         print('No secure environment variables: not deploying anything')
         return release_notes
-    elif len(release_files):
+    elif len(release_files) == 0:
         print('No file to release')
         return release_notes
     else:
