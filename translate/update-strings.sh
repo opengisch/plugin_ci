@@ -55,7 +55,12 @@ if [ ${UPDATE} == true ]
 # retrieve all python files
 then
   if [[ -z $(git status -s) ]]; then
-    git grep -l '\.tr(' | xargs sed -i 's/\.tr(/\.trUtf8(/g'
+    # Preprocess python files for pylupdate and utf-8
+    # pylupdate treats any string as latin-1, unless it's inside a trUtf8 call.
+    # On the other hand, trUtf8 is deprecated by Qt itself.
+    # So we send all the python files with trUtf8 instead of tr to pylupdate but
+    # still code and release their tr variants.
+    git grep -l '\.tr(' | xargs ${GP}sed -i 's/\.tr(/\.trUtf8(/g'
   else
     echo "Uncommitted changes found, please stash or commit changes before running update-strings.sh"
     echo $(git status -s)
