@@ -1,3 +1,3 @@
-#!/usr/env/bin bash
+#!/usr/bin/env bash
 
 tx pull -a
