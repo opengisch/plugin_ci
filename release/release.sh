@@ -21,6 +21,7 @@ ${GP}sed -r -i 's/^DEBUG\s*=\s*True/DEBUG = False/' ${PLUGIN_NAME}/${PLUGIN_NAME
 
 
 export RELEASE_VERSION=${TRAVIS_TAG}
+${DIR}/../translate/update-translations.sh
 
 # Tar up all the static files from the git directory
 echo -e " \e[33mExporting plugin version ${TRAVIS_TAG} from folder ${PLUGIN_NAME}"
