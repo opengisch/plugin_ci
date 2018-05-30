@@ -8,7 +8,8 @@ if [[ "$OSTYPE" =~ darwin* ]]; then
   GP=g
 fi
 
-PLUGIN_DIR=geomapfish_locator
+PLUGIN_DIR=$(echo $TRAVIS_REPO_SLUG | ${GP}sed -r 's#^[^/]+/(qgis_)?([^/]+)$#\2#')
+
 
 # Get newest .py files so we don't update strings unnecessarily
 
@@ -55,7 +56,8 @@ then
     git grep -l '\.tr(' | xargs sed -i 's/\.tr(/\.trUtf8(/g'
   else
     echo "Uncommitted changes found, please stash or commit changes before running update-strings.sh"
-    exit -1
+    echo $(git status -s)
+    exit 1
   fi
 
   # update .ts
