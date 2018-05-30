@@ -83,7 +83,7 @@ def create_release(release_files, changelog="", output="") -> str:
             create_raw_data["target_commitish"] = release['target_commitish']
             create_raw_data["name"] = release['name']
             create_raw_data["body"] = release['body'] + create_raw_data["body"]
-            release_notes = release['body']
+            release_notes = create_raw_data["body"]
         else:
             print('Failed to delete release!')
             print('Github API replied:')
@@ -125,6 +125,7 @@ def create_release(release_files, changelog="", output="") -> str:
     if output:
         with open(output, 'w') as f:
             print("Writing release notes")
+            print(release_notes)
             f.write(release_notes)
 
 
