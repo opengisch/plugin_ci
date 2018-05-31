@@ -11,7 +11,7 @@ if [[ "$OSTYPE" =~ darwin* ]]; then
   GP=g
 fi
 
-if [[ ! ${TRAVIS_SECURE_ENV_VARS} == "true" || ! ${TRAVIS_BRANCH} == "master"  || -z ${TRAVIS_TAG}  ]]; then
+if [[ ! ${TRAVIS_SECURE_ENV_VARS} == "true" || -z ${TRAVIS_TAG} ]]; then
   echo "Not releasing: not on main repo or master branch or missing tag"
   exit 1
 fi
