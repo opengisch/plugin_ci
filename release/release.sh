@@ -30,8 +30,8 @@ ${GP}sed -r -i "s/^version=.*\$/version=${RELEASE_VERSION}/" ${PLUGIN_NAME}/meta
 ${GP}sed -r -i 's/^DEBUG\s*=\s*True/DEBUG = False/' ${PLUGIN_NAME}/${PLUGIN_NAME}_plugin.py
 
 # Pull translations from transifx
-${DIR}/pull-transifex-translations.sh
-${DIR}/compile-strings.sh i18n/*.ts
+${DIR}/../translate/pull-transifex-translations.sh
+${DIR}/../translate/compile-strings.sh i18n/*.ts
 
 # Tar up all the static files from the git directory
 echo -e " \e[33mExporting plugin version ${TRAVIS_TAG} from folder ${PLUGIN_NAME}"
