@@ -19,15 +19,21 @@ fi
 export REPO_NAME=$(echo $TRAVIS_REPO_SLUG | ${GP}sed -r 's#^[^/]+/([^/]+)$#\1#')
 export PLUGIN_NAME=$(echo $TRAVIS_REPO_SLUG | ${GP}sed -r 's#^[^/]+/(qgis_)?([^/]+)$#\2#')
 
+if [ -z "$PLUGIN_SRC_DIR" ]; then
+  export PLUGIN_SRC_DIR=${PLUGIN_NAME}
+fi
+
 # remove potential revision
 export TAG_VERSION=${TRAVIS_TAG}
 export RELEASE_VERSION=$(${GP}sed -r 's/-\w+$//; s/^v//' <<< ${TRAVIS_TAG})
 
 # Inject metadata version from git tag
-${GP}sed -r -i "s/^version=.*\$/version=${RELEASE_VERSION}/" ${PLUGIN_NAME}/metadata.txt
+${GP}sed -r -i "s/^version=.*\$/version=${RELEASE_VERSION}/" ${PLUGIN_SRC_DIR}/metadata.txt
 
 # Ensure DEBUG is False in main plugin file
-${GP}sed -r -i 's/^DEBUG\s*=\s*True/DEBUG = False/' ${PLUGIN_NAME}/${PLUGIN_NAME}_plugin.py
+if [[ -f ${PLUGIN_NAME}_plugin.py ]]; then
+  ${GP}sed -r -i 's/^DEBUG\s*=\s*True/DEBUG = False/' ${PLUGIN_SRC_DIR}/${PLUGIN_NAME}_plugin.py
+fi
 
 # Pull translations from transifx
 ${DIR}/../translate/pull-transifex-translations.sh
@@ -37,7 +43,7 @@ ${DIR}/../translate/compile-strings.sh i18n/*.ts
 echo -e " \e[33mExporting plugin version ${TRAVIS_TAG} from folder ${PLUGIN_NAME}"
 # create a stash to save uncommitted changes (metadata)
 STASH=$(git stash create)
-git archive --prefix=${PLUGIN_NAME}/ -o ${CURDIR}/${PLUGIN_NAME}-${RELEASE_VERSION}.tar $STASH ${PLUGIN_NAME}
+git archive --prefix=${PLUGIN_NAME}/ -o ${CURDIR}/${PLUGIN_NAME}-${RELEASE_VERSION}.tar $STASH ${PLUGIN_SRC_DIR}
 
 # include submodules as part of the tar
 echo "also archive submodules..."
@@ -46,7 +52,7 @@ git submodule foreach | while read entering path; do
     temp="${temp#\'}"
     path=${temp}
     [ "$path" = "" ] && continue
-    [[ ! "$path" =~ ^"${PLUGIN_NAME}" ]] && echo "skipping non-plugin submodule $path" && continue
+    [[ ! "$path" =~ ^"${PLUGIN_SRC_DIR}" ]] && echo "skipping non-plugin submodule $path" && continue
     pushd ${path} > /dev/null
     git archive --prefix=${PLUGIN_NAME}/${path}/ HEAD > /tmp/tmp.tar
     tar --concatenate --file=${CURDIR}/${PLUGIN_NAME}-${RELEASE_VERSION}.tar /tmp/tmp.tar
@@ -67,6 +73,10 @@ popd
 echo "## Detailed changelod" > /tmp/changelog
 git log HEAD^...$(git describe --abbrev=0 --tags HEAD^) --pretty=format:"### %s%n%n%b" >> /tmp/changelog
 
-${DIR}/publish_release.py -f ${CURDIR}/${PLUGIN_NAME}-${TAG_VERSION}.zip -c /tmp/changelog -o /tmp/release_notes
+${DIR}/create_release.py -f ${CURDIR}/${PLUGIN_NAME}-${TAG_VERSION}.zip -c /tmp/changelog -o /tmp/release_notes
 cat /tmp/release_notes
-${DIR}/publish_plugin.py -u "${OSGEO_USERNAME}" -w "${OSGEO_PASSWORD}" -r "${TRAVIS_TAG}" ${PLUGIN_NAME}-${TAG_VERSION}.zip -c /tmp/release_notes
+if [[ ${PUSH_TO} =~ ^github$ ]]; then
+  ${DIR}/publish_plugin_github.sh ${TAG_VERSION} ${PLUGIN_NAME}-${TAG_VERSION}.zip
+else
+  ${DIR}/publish_plugin_osgeo.py -u "${OSGEO_USERNAME}" -w "${OSGEO_PASSWORD}" -r "${TRAVIS_TAG}" ${PLUGIN_NAME}-${TAG_VERSION}.zip -c /tmp/release_notes
+fi
