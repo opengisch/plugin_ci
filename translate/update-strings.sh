@@ -10,13 +10,10 @@ if [[ "$OSTYPE" =~ darwin* ]]; then
   GP=g
 fi
 
-PLUGIN_DIR=$(echo $TRAVIS_REPO_SLUG | ${GP}sed -r 's#^[^/]+/(qgis_)?([^/]+)$#\2#')
-
-
 # Get newest .py files so we don't update strings unnecessarily
 
 CHANGED_FILES=0
-PYTHON_FILES=`${GP}find ${PLUGIN_DIR}/ -regextype sed -regex ".*\.\(py\|ui\)$" -type f`
+PYTHON_FILES=`${GP}find ${PLUGIN_SRC_DIR}/ -regextype sed -regex ".*\.\(py\|ui\)$" -type f`
 for PYTHON_FILE in $PYTHON_FILES
 do
   CHANGED=$(${GP}stat -c %Y $PYTHON_FILE)
@@ -33,7 +30,7 @@ mkdir -p i18n
 UPDATE=false
 for LOCALE in ${LOCALES}
 do
-  TRANSLATION_FILE="i18n/${PLUGIN_DIR}_${LOCALE}.ts"
+  TRANSLATION_FILE="i18n/${PLUGIN_NAME}_${LOCALE}.ts"
   if [ ! -f ${TRANSLATION_FILE} ]
   then
     # Force translation string collection as we have a new language file
@@ -73,7 +70,7 @@ then
   do
     # Note we don't use pylupdate with qt .pro file approach as it is flakey
     # about what is made available.
-    pylupdate5 -noobsolete ${PYTHON_FILES} -ts i18n/${PLUGIN_DIR}_${LOCALE}.ts
+    pylupdate5 -noobsolete ${PYTHON_FILES} -ts i18n/${PLUGIN_NAME}_${LOCALE}.ts
   done
   git checkout -- .
 else
