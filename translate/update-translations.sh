@@ -4,6 +4,8 @@ set -e
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+source ${DIR}/../scripts/env_variables.sh
+
 # If we are on the master branch and not on a fork, upload translation strings
 if [[ ${TRAVIS_SECURE_ENV_VARS} == "true" && ${TRAVIS_BRANCH} == "master" ]];
 then

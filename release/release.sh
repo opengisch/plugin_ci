@@ -16,12 +16,7 @@ if [[ ! ${TRAVIS_SECURE_ENV_VARS} == "true" || -z ${TRAVIS_TAG} ]]; then
   exit 1
 fi
 
-export REPO_NAME=$(echo $TRAVIS_REPO_SLUG | ${GP}sed -r 's#^[^/]+/([^/]+)$#\1#')
-export PLUGIN_NAME=$(echo $TRAVIS_REPO_SLUG | ${GP}sed -r 's#^[^/]+/(qgis_)?([^/]+)$#\2#')
-
-if [ -z "$PLUGIN_SRC_DIR" ]; then
-  export PLUGIN_SRC_DIR=${PLUGIN_NAME}
-fi
+source ${DIR}/../scripts/env_variables.sh
 
 # remove potential revision
 export TAG_VERSION=${TRAVIS_TAG}
