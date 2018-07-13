@@ -46,11 +46,8 @@ metadata_settings["deprecated"]="__DEPRECATED__"
 
 for setting in "${!metadata_settings[@]}"; do
   value=$(${GP}sed -n -r "/^${setting}=/p" ${PLUGIN_SRC_DIR}/metadata.txt | ${GP}sed -r "s/^${setting}=//")
-  echo "$setting ${metadata_settings[${setting}]} $value"
   ${GP}sed -i "s@${metadata_settings[${setting}]}@${value}@" ${PLUGIN_XML}
 done
-
-exit
 
 git add .
 git commit -m "Release $1 on repo"
