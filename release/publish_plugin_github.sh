@@ -49,6 +49,10 @@ for setting in "${!metadata_settings[@]}"; do
   ${GP}sed -i "s@${metadata_settings[${setting}]}@${value}@" ${PLUGIN_XML}
 done
 
-git add .
+pushd ${TRAVIS_BUILD_DIR}
+git fetch --depth=1 git@github.com:${TRAVIS_REPO_SLUG}.git refs/heads/master:refs/remotes/origin/master
+git checkout master
+git add plugins.xml
 git commit -m "Release $1 on repo"
-git push
+git push git@github.com:${TRAVIS_REPO_SLUG}.git master
+popd
