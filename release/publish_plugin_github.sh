@@ -52,5 +52,5 @@ done
 pushd ${TRAVIS_BUILD_DIR}
 git add plugins.xml
 git commit -m "Release $1 on repo"
-git push origin HEAD:master
+git push git@github.com:${TRAVIS_REPO_SLUG} HEAD:master
 popd
