@@ -1,6 +1,6 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <plugins>
-    <pyqgis_plugin name="__PLUGIN_NAME__" version="__version__">
+    <pyqgis_plugin name="__PLUGIN_NAME__" version="__VERSION__">
         <description><![CDATA[__DESCRIPTION__]]></description>
         <version>__VERSION__</version>
         <qgis_minimum_version>__QGIS_MIN_VERSION__</qgis_minimum_version>
