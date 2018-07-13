@@ -50,9 +50,7 @@ for setting in "${!metadata_settings[@]}"; do
 done
 
 pushd ${TRAVIS_BUILD_DIR}
-git fetch --depth=1 git@github.com:${TRAVIS_REPO_SLUG}.git refs/heads/master:refs/remotes/origin/master
-git checkout master
 git add plugins.xml
 git commit -m "Release $1 on repo"
-git push git@github.com:${TRAVIS_REPO_SLUG}.git master
+git push origin HEAD:master
 popd
