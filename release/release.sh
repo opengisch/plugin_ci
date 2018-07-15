@@ -26,7 +26,7 @@ export RELEASE_VERSION=$(${GP}sed -r 's/-\w+$//; s/^v//' <<< ${TRAVIS_TAG})
 ${GP}sed -r -i "s/^version=.*\$/version=${RELEASE_VERSION}/" ${PLUGIN_SRC_DIR}/metadata.txt
 
 # Ensure DEBUG is False in main plugin file
-if [[ -f ${PLUGIN_NAME}_plugin.py ]]; then
+if [[ -f ${PLUGIN_SRC_DIR}/${PLUGIN_NAME}_plugin.py ]]; then
   ${GP}sed -r -i 's/^DEBUG\s*=\s*True/DEBUG = False/' ${PLUGIN_SRC_DIR}/${PLUGIN_NAME}_plugin.py
 fi
 
@@ -35,10 +35,10 @@ ${DIR}/../translate/pull-transifex-translations.sh
 ${DIR}/../translate/compile-strings.sh i18n/*.ts
 
 # Tar up all the static files from the git directory
-echo -e " \e[33mExporting plugin version ${TRAVIS_TAG} from folder ${PLUGIN_NAME}"
+echo -e " \e[33mExporting plugin version ${TRAVIS_TAG} from folder ${PLUGIN_SRC_DIR}"
 # create a stash to save uncommitted changes (metadata)
 STASH=$(git stash create)
-git archive --prefix=${PLUGIN_NAME}/ -o ${CURDIR}/${PLUGIN_NAME}-${RELEASE_VERSION}.tar $STASH ${PLUGIN_SRC_DIR}
+git archive --prefix=${PLUGIN_NAME}/ -o ${CURDIR}/${PLUGIN_NAME}-${RELEASE_VERSION}.tar ${STASH} ${PLUGIN_SRC_DIR}
 
 # include submodules as part of the tar
 echo "also archive submodules..."
