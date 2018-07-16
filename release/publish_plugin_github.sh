@@ -18,7 +18,7 @@ CREATE_DATE=$(git show -s --format=%cI $(git rev-list --max-parents=0 HEAD))
 
 cp ${DIR}/plugins.xml.template ${PLUGIN_XML}
 
-echo "AAA"
+echo "AAA ${PLUGIN_XML}"
 
 ${GP}sed -i -r "s/__VERSION__/${RELEASE_VERSION}/" ${PLUGIN_XML}
 ${GP}sed -i -r "s/__PLUGIN_NAME__/${PLUGIN_NAME}/" ${PLUGIN_XML}
