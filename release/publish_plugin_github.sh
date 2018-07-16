@@ -37,7 +37,7 @@ metadata_settings["tags"]="__TAGS__"
 metadata_settings["experimental"]="__EXPERIMENTAL__"
 metadata_settings["deprecated"]="__DEPRECATED__"
 
-for setting in "${!metadata_settings[/]}"; do
+for setting in "${!metadata_settings[@]}"; do
   value=$(${GP}sed -n -r "/^${setting}=/p" ${PLUGIN_SRC_DIR}/metadata.txt | ${GP}sed -r "s/^${setting}=//")
   ${GP}sed -i -r "s/${metadata_settings[${setting}]}/${value}/" ${PLUGIN_XML}
 done
