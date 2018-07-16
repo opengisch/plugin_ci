@@ -9,15 +9,12 @@ if [[ "$OSTYPE" =~ darwin* ]]; then
   GP=g
 fi
 
-echo "creating release version $1 ($2)"
+echo "creating release version $RELEASE_VERSIOM"
 
 PLUGIN_XML=${TRAVIS_BUILD_DIR}/plugins.xml
 
-FILENAME=$2
 NOW=$(${GP}date -Iseconds -u)
 CREATE_DATE=$(git show -s --format=%cI $(git rev-list --max-parents=0 HEAD))
-
-
 
 cp ${DIR}/plugins.xml.template ${PLUGIN_XML}
 
@@ -26,7 +23,7 @@ ${GP}sed -i "s/__PLUGIN_NAME__/${PLUGIN_NAME}/" ${PLUGIN_XML}
 ${GP}sed -i "s@__RELEASE_DATE__@${NOW}@" ${PLUGIN_XML}
 ${GP}sed -i "s@__CREATE_DATE__@${CREATE_DATE}@" ${PLUGIN_XML}
 ${GP}sed -i "s@__ORG__/__REPO__@${TRAVIS_REPO_SLUG}@" ${PLUGIN_XML}
-${GP}sed -i "s@__PLUGINZIP__@${FILENAME}@" ${PLUGIN_XML}
+${GP}sed -i "s@__PLUGINZIP__@${ZIPFILENAME}@" ${PLUGIN_XML}
 ${GP}sed -i "s@__AUTHOR__@${PLUGIN_AUTHOR}@" ${PLUGIN_XML}
 ${GP}sed -i "s@__OSGEO_USERNAME__@${OSGEO_USERNAME}@" ${PLUGIN_XML}
 
@@ -40,7 +37,7 @@ metadata_settings["deprecated"]="__DEPRECATED__"
 
 for setting in "${!metadata_settings[@]}"; do
   value=$(${GP}sed -n -r "/^${setting}=/p" ${PLUGIN_SRC_DIR}/metadata.txt | ${GP}sed -r "s/^${setting}=//")
-  ${GP}sed -i "s@${metadata_settings[${setting}]}@${value}@" ${PLUGIN_XML}
+  ${GP}sed -i -r "s@${metadata_settings[${setting}]}@${value}@" ${PLUGIN_XML}
 done
 
 pushd ${TRAVIS_BUILD_DIR}
