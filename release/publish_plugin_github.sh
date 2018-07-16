@@ -20,7 +20,8 @@ fi
 
 cp ${DIR}/plugins.xml.template ${PLUGIN_XML}
 
-${GP}sed -i -r "s/__VERSION__/${RELEASE_VERSION}/" ${PLUGIN_XML}
+${GP}sed -i -r "s/__RELEASE_VERSION__/${RELEASE_VERSION}/" ${PLUGIN_XML}
+${GP}sed -i -r "s/__TAG_VERSION__/${TAG_VERSION}/" ${PLUGIN_XML}
 ${GP}sed -i -r "s/__PLUGIN_NAME__/${PLUGIN_NAME}/" ${PLUGIN_XML}
 ${GP}sed -i -r "s/__RELEASE_DATE__/${NOW}/" ${PLUGIN_XML}
 ${GP}sed -i -r "s/__CREATE_DATE__/${CREATE_DATE}/" ${PLUGIN_XML}
