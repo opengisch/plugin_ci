@@ -23,8 +23,10 @@ cp ${DIR}/plugins.xml.template ${PLUGIN_XML}
 ${GP}sed -i -r "s/__VERSION__/${RELEASE_VERSION}/" ${PLUGIN_XML}
 ${GP}sed -i -r "s/__PLUGIN_NAME__/${PLUGIN_NAME}/" ${PLUGIN_XML}
 ${GP}sed -i -r "s/__RELEASE_DATE__/${NOW}/" ${PLUGIN_XML}
+echo "a $CREATE_DATE"
 ${GP}sed -i -r "s/__CREATE_DATE__/${CREATE_DATE}/" ${PLUGIN_XML}
 ${GP}sed -i -r "s/__ORG__/__REPO__/${TRAVIS_REPO_SLUG}/" ${PLUGIN_XML}
+echo "b $ZIPFILENAME"
 ${GP}sed -i -r "s/__PLUGINZIP__/${ZIPFILENAME}/" ${PLUGIN_XML}
 ${GP}sed -i -r "s/__AUTHOR__/${PLUGIN_AUTHOR}/" ${PLUGIN_XML}
 ${GP}sed -i -r "s/__OSGEO_USERNAME__/${OSGEO_USERNAME}/" ${PLUGIN_XML}
