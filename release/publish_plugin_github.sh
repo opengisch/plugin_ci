@@ -13,7 +13,7 @@ echo "creating release version $RELEASE_VERSION"
 
 PLUGIN_XML=${TRAVIS_BUILD_DIR}/plugins.xml
 
-NOW=$(${GP}date -Iseconds -u)
+NOW=$(${GP}date -I -u)
 if [ -z "$CREATE_DATE" ]; then
   CREATE_DATE=${NOW}
 fi
@@ -39,7 +39,7 @@ metadata_settings["deprecated"]="__DEPRECATED__"
 
 for setting in "${!metadata_settings[@]}"; do
   value=$(${GP}sed -n -r "/^${setting}=/p" ${PLUGIN_SRC_DIR}/metadata.txt | ${GP}sed -r "s/^${setting}=//")
-  ${GP}sed -i -r "s/${metadata_settings[${setting}]}/${value}/" ${PLUGIN_XML}
+  ${GP}sed -i -r "s#${metadata_settings[${setting}]}#${value}#" ${PLUGIN_XML}
 done
 
 pushd ${TRAVIS_BUILD_DIR}
