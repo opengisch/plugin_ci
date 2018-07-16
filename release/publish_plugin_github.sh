@@ -22,16 +22,16 @@ echo "AAA ${PLUGIN_XML}"
 
 ${GP}sed -i -r "s/__VERSION__/${RELEASE_VERSION}/" ${PLUGIN_XML}
 ${GP}sed -i -r "s/__PLUGIN_NAME__/${PLUGIN_NAME}/" ${PLUGIN_XML}
-${GP}sed -i -r "s@__RELEASE_DATE__@${NOW}@" ${PLUGIN_XML}
-${GP}sed -i -r "s@__CREATE_DATE__@${CREATE_DATE}@" ${PLUGIN_XML}
+${GP}sed -i -r "s/__RELEASE_DATE__/${NOW}/" ${PLUGIN_XML}
+${GP}sed -i -r "s/__CREATE_DATE__/${CREATE_DATE}/" ${PLUGIN_XML}
 
 echo "BBBB"
 
 
-${GP}sed -i -r "s@__ORG__/__REPO__@${TRAVIS_REPO_SLUG}@" ${PLUGIN_XML}
-${GP}sed -i -r "s@__PLUGINZIP__@${ZIPFILENAME}@" ${PLUGIN_XML}
-${GP}sed -i -r "s@__AUTHOR__@${PLUGIN_AUTHOR}@" ${PLUGIN_XML}
-${GP}sed -i -r "s@__OSGEO_USERNAME__@${OSGEO_USERNAME}@" ${PLUGIN_XML}
+${GP}sed -i -r "s/__ORG__/__REPO__/${TRAVIS_REPO_SLUG}/" ${PLUGIN_XML}
+${GP}sed -i -r "s/__PLUGINZIP__/${ZIPFILENAME}/" ${PLUGIN_XML}
+${GP}sed -i -r "s/__AUTHOR__/${PLUGIN_AUTHOR}/" ${PLUGIN_XML}
+${GP}sed -i -r "s/__OSGEO_USERNAME__/${OSGEO_USERNAME}/" ${PLUGIN_XML}
 
 declare -A metadata_settings
 metadata_settings["description"]="__DESCRIPTION__"
@@ -41,11 +41,11 @@ metadata_settings["tags"]="__TAGS__"
 metadata_settings["experimental"]="__EXPERIMENTAL__"
 metadata_settings["deprecated"]="__DEPRECATED__"
 
-for setting in "${!metadata_settings[@]}"; do
+for setting in "${!metadata_settings[/]}"; do
   echo "CCC $setting"
   value=$(${GP}sed -n -r "/^${setting}=/p" ${PLUGIN_SRC_DIR}/metadata.txt | ${GP}sed -r "s/^${setting}=//")
   echo "ddd"
-  ${GP}sed -i -r "s@${metadata_settings[${setting}]}@${value}@" ${PLUGIN_XML}
+  ${GP}sed -i -r "s/${metadata_settings[${setting}]}/${value}/" ${PLUGIN_XML}
 done
 
 pushd ${TRAVIS_BUILD_DIR}
