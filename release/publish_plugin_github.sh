@@ -22,7 +22,13 @@ echo "AAA ${PLUGIN_XML}"
 
 ${GP}sed -i -r "s/__VERSION__/${RELEASE_VERSION}/" ${PLUGIN_XML}
 ${GP}sed -i -r "s/__PLUGIN_NAME__/${PLUGIN_NAME}/" ${PLUGIN_XML}
+
+echo "QQQ $NOW"
+
 ${GP}sed -i -r "s/__RELEASE_DATE__/${NOW}/" ${PLUGIN_XML}
+
+echo "ZZZ $CREATE_DATE"
+
 ${GP}sed -i -r "s/__CREATE_DATE__/${CREATE_DATE}/" ${PLUGIN_XML}
 
 echo "BBBB"
