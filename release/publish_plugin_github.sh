@@ -13,21 +13,15 @@ echo "creating release version $1 ($2)"
 
 PLUGIN_XML=${TRAVIS_BUILD_DIR}/plugins.xml
 
-VERSION=$1
 FILENAME=$2
 NOW=$(${GP}date -Iseconds -u)
 CREATE_DATE=$(git show -s --format=%cI $(git rev-list --max-parents=0 HEAD))
 
-if [ -z "$PLUGIN_AUTHOR" ]; then
-  PLUGIN_AUTHOR=OpenGIS.ch
-fi
-if [ -z "$OSGEO_USERNAME" ]; then
-  OSGEO_USERNAME=OpenGISch
-fi
+
 
 cp ${DIR}/plugins.xml.template ${PLUGIN_XML}
 
-${GP}sed -i "s/__VERSION__/${VERSION}/" ${PLUGIN_XML}
+${GP}sed -i "s/__VERSION__/${RELEASE_VERSION}/" ${PLUGIN_XML}
 ${GP}sed -i "s/__PLUGIN_NAME__/${PLUGIN_NAME}/" ${PLUGIN_XML}
 ${GP}sed -i "s@__RELEASE_DATE__@${NOW}@" ${PLUGIN_XML}
 ${GP}sed -i "s@__CREATE_DATE__@${CREATE_DATE}@" ${PLUGIN_XML}

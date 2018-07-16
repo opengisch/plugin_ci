@@ -18,10 +18,6 @@ fi
 
 source ${DIR}/../scripts/env_variables.sh
 
-# remove potential revision
-export TAG_VERSION=${TRAVIS_TAG}
-export RELEASE_VERSION=$(${GP}sed -r 's/-\w+$//; s/^v//' <<< ${TRAVIS_TAG})
-
 # Inject metadata version from git tag
 ${GP}sed -r -i "s/^version=.*\$/version=${RELEASE_VERSION}/" ${PLUGIN_SRC_DIR}/metadata.txt
 
