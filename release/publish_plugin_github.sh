@@ -14,26 +14,16 @@ echo "creating release version $RELEASE_VERSION"
 PLUGIN_XML=${TRAVIS_BUILD_DIR}/plugins.xml
 
 NOW=$(${GP}date -Iseconds -u)
-CREATE_DATE=$(git show -s --format=%cI $(git rev-list --max-parents=0 HEAD))
+if [ -z "$CREATE_DATE" ]; then
+  CREATE_DATE=${NOW}
+fi
 
 cp ${DIR}/plugins.xml.template ${PLUGIN_XML}
 
-echo "AAA ${PLUGIN_XML}"
-
 ${GP}sed -i -r "s/__VERSION__/${RELEASE_VERSION}/" ${PLUGIN_XML}
 ${GP}sed -i -r "s/__PLUGIN_NAME__/${PLUGIN_NAME}/" ${PLUGIN_XML}
-
-echo "QQQ $NOW"
-
 ${GP}sed -i -r "s/__RELEASE_DATE__/${NOW}/" ${PLUGIN_XML}
-
-echo "ZZZ $CREATE_DATE"
-
 ${GP}sed -i -r "s/__CREATE_DATE__/${CREATE_DATE}/" ${PLUGIN_XML}
-
-echo "BBBB"
-
-
 ${GP}sed -i -r "s/__ORG__/__REPO__/${TRAVIS_REPO_SLUG}/" ${PLUGIN_XML}
 ${GP}sed -i -r "s/__PLUGINZIP__/${ZIPFILENAME}/" ${PLUGIN_XML}
 ${GP}sed -i -r "s/__AUTHOR__/${PLUGIN_AUTHOR}/" ${PLUGIN_XML}
@@ -48,9 +38,7 @@ metadata_settings["experimental"]="__EXPERIMENTAL__"
 metadata_settings["deprecated"]="__DEPRECATED__"
 
 for setting in "${!metadata_settings[/]}"; do
-  echo "CCC $setting"
   value=$(${GP}sed -n -r "/^${setting}=/p" ${PLUGIN_SRC_DIR}/metadata.txt | ${GP}sed -r "s/^${setting}=//")
-  echo "ddd"
   ${GP}sed -i -r "s/${metadata_settings[${setting}]}/${value}/" ${PLUGIN_XML}
 done
 
