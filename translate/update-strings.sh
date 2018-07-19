@@ -30,7 +30,7 @@ mkdir -p i18n
 UPDATE=false
 for LOCALE in ${LOCALES}
 do
-  TRANSLATION_FILE="i18n/${PLUGIN_NAME}_${LOCALE}.ts"
+  TRANSLATION_FILE="i18n/${PLUGIN_REPO_NAME}_${LOCALE}.ts"
   if [ ! -f ${TRANSLATION_FILE} ]
   then
     # Force translation string collection as we have a new language file
@@ -70,7 +70,7 @@ then
   do
     # Note we don't use pylupdate with qt .pro file approach as it is flakey
     # about what is made available.
-    pylupdate5 -noobsolete ${PYTHON_FILES} -ts i18n/${PLUGIN_NAME}_${LOCALE}.ts
+    pylupdate5 -noobsolete ${PYTHON_FILES} -ts i18n/${PLUGIN_REPO_NAME}_${LOCALE}.ts
   done
   git checkout -- .
 else

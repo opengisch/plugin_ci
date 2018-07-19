@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -e
 
@@ -22,8 +22,8 @@ source ${DIR}/../scripts/env_variables.sh
 ${GP}sed -r -i "s/^version=.*\$/version=${RELEASE_VERSION}/" ${PLUGIN_SRC_DIR}/metadata.txt
 
 # Ensure DEBUG is False in main plugin file
-if [[ -f ${PLUGIN_SRC_DIR}/${PLUGIN_NAME}_plugin.py ]]; then
-  ${GP}sed -r -i 's/^DEBUG\s*=\s*True/DEBUG = False/' ${PLUGIN_SRC_DIR}/${PLUGIN_NAME}_plugin.py
+if [[ -f ${PLUGIN_SRC_DIR}/${PLUGIN_REPO_NAME}_plugin.py ]]; then
+  ${GP}sed -r -i 's/^DEBUG\s*=\s*True/DEBUG = False/' ${PLUGIN_SRC_DIR}/${PLUGIN_REPO_NAME}_plugin.py
 fi
 
 # Pull translations from transifx
@@ -34,7 +34,7 @@ ${DIR}/../translate/compile-strings.sh i18n/*.ts
 echo -e " \e[33mExporting plugin version ${TRAVIS_TAG} from folder ${PLUGIN_SRC_DIR}"
 # create a stash to save uncommitted changes (metadata)
 STASH=$(git stash create)
-git archive --prefix=${PLUGIN_NAME}/ -o ${CURDIR}/${PLUGIN_NAME}-${RELEASE_VERSION}.tar ${STASH} ${PLUGIN_SRC_DIR}
+git archive --prefix=${PLUGIN_REPO_NAME}/ -o ${CURDIR}/${PLUGIN_REPO_NAME}-${RELEASE_VERSION}.tar ${STASH} ${PLUGIN_SRC_DIR}
 
 # include submodules as part of the tar
 echo "also archive submodules..."
@@ -45,22 +45,22 @@ git submodule foreach | while read entering path; do
     [ "$path" = "" ] && continue
     [[ ! "$path" =~ ^"${PLUGIN_SRC_DIR}" ]] && echo "skipping non-plugin submodule $path" && continue
     pushd ${path} > /dev/null
-    git archive --prefix=${PLUGIN_NAME}/${path}/ HEAD > /tmp/tmp.tar
-    tar --concatenate --file=${CURDIR}/${PLUGIN_NAME}-${RELEASE_VERSION}.tar /tmp/tmp.tar
+    git archive --prefix=${PLUGIN_REPO_NAME}/${path}/ HEAD > /tmp/tmp.tar
+    tar --concatenate --file=${CURDIR}/${PLUGIN_REPO_NAME}-${RELEASE_VERSION}.tar /tmp/tmp.tar
     rm /tmp/tmp.tar
     popd > /dev/null
 done
 
 # Extract to a temporary location and add translations
-TEMPDIR=/tmp/build-${PLUGIN_NAME}
-mkdir -p ${TEMPDIR}/${PLUGIN_NAME}/${PLUGIN_NAME}/i18n
-tar -xf ${CURDIR}/${PLUGIN_NAME}-${RELEASE_VERSION}.tar -C ${TEMPDIR}
-mv ${TEMPDIR}/${PLUGIN_NAME}/${PLUGIN_SRC_DIR}/* ${TEMPDIR}/${PLUGIN_NAME}/${PLUGIN_NAME}
-rmdir ${TEMPDIR}/${PLUGIN_NAME}/${PLUGIN_SRC_DIR}
-mv i18n/*.qm ${TEMPDIR}/${PLUGIN_NAME}/${PLUGIN_NAME}/i18n
+TEMPDIR=/tmp/build-${PLUGIN_REPO_NAME}
+mkdir -p ${TEMPDIR}/${PLUGIN_REPO_NAME}/${PLUGIN_REPO_NAME}/i18n
+tar -xf ${CURDIR}/${PLUGIN_REPO_NAME}-${RELEASE_VERSION}.tar -C ${TEMPDIR}
+mv ${TEMPDIR}/${PLUGIN_REPO_NAME}/${PLUGIN_SRC_DIR}/* ${TEMPDIR}/${PLUGIN_REPO_NAME}/${PLUGIN_REPO_NAME}
+rmdir ${TEMPDIR}/${PLUGIN_REPO_NAME}/${PLUGIN_SRC_DIR}
+mv i18n/*.qm ${TEMPDIR}/${PLUGIN_REPO_NAME}/${PLUGIN_REPO_NAME}/i18n
 
-pushd ${TEMPDIR}/${PLUGIN_NAME}
-zip -r ${CURDIR}/${ZIPFILENAME} ${PLUGIN_NAME}
+pushd ${TEMPDIR}/${PLUGIN_REPO_NAME}
+zip -r ${CURDIR}/${ZIPFILENAME} ${PLUGIN_REPO_NAME}
 popd
 
 echo "## Detailed changelod" > /tmp/changelog

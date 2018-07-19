@@ -1,11 +1,22 @@
 #!/usr/bin/env bash
 
-export REPO_NAME=$(echo $TRAVIS_REPO_SLUG | ${GP}sed -r 's#^[^/]+/([^/]+)$#\1#')
-export PLUGIN_NAME=$(echo $TRAVIS_REPO_SLUG | ${GP}sed -r 's#^[^/]+/(qgis_)?([^/]+)$#\2#')
+set -e
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# GNU prefix command for mac os support (gsed, gsplit)
+GP=
+if [[ "$OSTYPE" =~ darwin* ]]; then
+  GP=g
+fi
+
+export PLUGIN_REPO_NAME=$(echo $TRAVIS_REPO_SLUG | ${GP}sed -r 's#^[^/]+/(qgis_)?([^/]+)$#\2#')
 
 if [ -z "$PLUGIN_SRC_DIR" ]; then
-  export PLUGIN_SRC_DIR=${PLUGIN_NAME}
+  export PLUGIN_SRC_DIR=${PLUGIN_REPO_NAME}
 fi
+
+export PLUGIN_NAME=$(${GP}sed -n -r '/^name=/p' ${PLUGIN_SRC_DIR}/metadata.txt | ${GP}sed -r 's/^name=//')
 
 if [ -z "$PLUGIN_AUTHOR" ]; then
   export PLUGIN_AUTHOR=OpenGIS.ch
