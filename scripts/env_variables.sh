@@ -27,4 +27,4 @@ fi
 export TAG_VERSION=${TRAVIS_TAG}
 export RELEASE_VERSION=$(${GP}sed -r 's/-\w+$//; s/^v//' <<< ${TRAVIS_TAG})
 
-export ZIPFILENAME="${PLUGIN_REPO_NAME}-${TAG_VERSION}.zip"
+export ZIPFILENAME="${PLUGIN_REPO_NAME}.${TAG_VERSION}.zip"
