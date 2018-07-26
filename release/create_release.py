@@ -56,9 +56,14 @@ def create_release(release_files, changelog="", output="") -> str:
         'Authorization': 'token {}'.format(os.environ['GH_TOKEN'])
     }
 
+    changelog_content = ''
+    if changelog:
+        with open(changelog, 'r') as changelog_file:
+            changelog_content = changelog_file.read()
+
     create_raw_data = {
         "tag_name": os.environ['TRAVIS_TAG'],
-        "body": "\n\n{}".format(changelog) if changelog else ""
+        "body": "\n\n{}".format(changelog_content)
     }
 
     # if a release exist with this tag_name delete it first

@@ -65,7 +65,7 @@ pushd ${TEMPDIR}/${PLUGIN_REPO_NAME}
 zip -r ${CURDIR}/${ZIPFILENAME} ${PLUGIN_REPO_NAME}
 popd
 
-echo "## Detailed changelod" > /tmp/changelog
+echo "## Detailed changelog" > /tmp/changelog
 git log HEAD^...$(git describe --abbrev=0 --tags HEAD^) --pretty=format:"### %s%n%n%b" >> /tmp/changelog
 
 ${DIR}/create_release.py -f ${CURDIR}/${ZIPFILENAME} -c /tmp/changelog -o /tmp/release_notes
