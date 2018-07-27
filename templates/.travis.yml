@@ -52,3 +52,7 @@ env:
     # authorize only "public_repo"
     # travis encrypt GH_TOKEN="......"
     - secure: "f2iHNi2Z95mjjBBtSwjBdU/Jxqp79Bppln5zCe0slK3aARKqiO/HLCeSMg6hjyQJpP+MzpzdHyHfLEMPzg6W0EcfIoCYgELfqHGKTmSgT2NOVLjL8TTn8M8yTCn1Nd4scYY4GFP4loxCv8tTYX9X4j+M1KoKT97tXLQc72jtMTqhqcp/elYrzNgu78G8rhloyy+F34A6enRfcxGrD6DBZ4chwDmVrAybFzOsAuDxI4nOWPqcF4NG/+nJeomzxba5eATMbUbCgDNXMoXRjg3qL3I5zzlyoq/Gte4yQLNXDP79AarbAJtNJmJMI/2k20DjD3MhoWc+eAT2bK8TjMNDRrvTg0geBGta1AI9/eo/QJRbdm6d6TkAvjn3NhNUR7P2XwHzWm+kndqxE37GRZSZEmjnc1ZQpnASnkoApDaQKnDqTM2eB72I6pzg++fs3URWKfV4E4T0rpeIfIJWGkJ2Ar9KTdX9KeJ1goM16mxiWTWZjnTn6MQ8KBj2PEzaXsihUEkC63W1g1gz15aZngXDyAaBHR7aCnsiJHKfLZgDirR09pNEb89p5ETl2QvPnFSLkT23fsdJ5Ac6rI6wWzcSJtYOTGPhIg449J0a9iRm3Fj+E6m2xPS/GdrbmvOEUXeLAhrvmrbJWGaMGnNl0P5G8zwG4LpZHxJMb1pKqnhNqE8="
+
+    # if APPEND_CHANGELOG is defined, a list of all commits since
+    # the last release will be appended to the changelog.
+    # - APPEND_CHANGELOG=true
