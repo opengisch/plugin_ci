@@ -68,7 +68,13 @@ popd
 echo "## Detailed changelog" > /tmp/changelog
 git log HEAD^...$(git describe --abbrev=0 --tags HEAD^) --pretty=format:"### %s%n%n%b" >> /tmp/changelog
 
-${DIR}/create_release.py -f ${CURDIR}/${ZIPFILENAME} -c /tmp/changelog -o /tmp/release_notes
+CHANGELOG_OPTION=""
+if [[ "$APPEND_CHANGELOG" = "true" ]]; then
+  CHANGELOG_OPTION="-c /tmp/changelog"
+fi
+
+
+${DIR}/create_release.py -f ${CURDIR}/${ZIPFILENAME} ${APPEND_CHANGELOG:+-c /tmp/changelog} -o /tmp/release_notes
 cat /tmp/release_notes
 if [[ ${PUSH_TO} =~ ^github$ ]]; then
   ${DIR}/publish_plugin_github.sh

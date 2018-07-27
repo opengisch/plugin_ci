@@ -23,6 +23,10 @@ if [ -z "$OSGEO_USERNAME" ]; then
   export OSGEO_USERNAME=OpenGISch
 fi
 
+if [ -z "$APPEND_CHANGELOG" ]; then
+  export APPEND_CHANGELOG=""
+fi
+
 # remove potential revision
 export TAG_VERSION=${TRAVIS_TAG}
 export RELEASE_VERSION=$(${GP}sed -r 's/-\w+$//; s/^v//' <<< ${TRAVIS_TAG})
