@@ -10,9 +10,6 @@ from future import standard_library
 import sys
 import getpass
 import xmlrpc.client
-import json
-import http.client
-import os
 from optparse import OptionParser
 
 standard_library.install_aliases()
