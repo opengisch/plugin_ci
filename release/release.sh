@@ -26,9 +26,13 @@ if [[ -f ${PLUGIN_SRC_DIR}/${PLUGIN_REPO_NAME}_plugin.py ]]; then
   ${GP}sed -r -i 's/^DEBUG\s*=\s*True/DEBUG = False/' ${PLUGIN_SRC_DIR}/${PLUGIN_REPO_NAME}_plugin.py
 fi
 
-# Pull translations from transifx
-${DIR}/../translate/pull-transifex-translations.sh
-${DIR}/../translate/compile-strings.sh i18n/*.ts
+if [[ -d .tx ]]; then
+  # Pull translations from transifx
+  ${DIR}/../translate/pull-transifex-translations.sh
+  ${DIR}/../translate/compile-strings.sh i18n/*.ts
+else
+  echo -e "\033[0;33mNo .tx folder present in repository, not pulling any translations\033[0m"
+fi
 
 # Tar up all the static files from the git directory
 echo -e " \e[33mExporting plugin version ${TRAVIS_TAG} from folder ${PLUGIN_SRC_DIR}"
@@ -59,7 +63,13 @@ if [[ "${PLUGIN_SRC_DIR}" != "${PLUGIN_REPO_NAME}" ]]; then
   mv ${TEMPDIR}/${PLUGIN_REPO_NAME}/${PLUGIN_SRC_DIR}/* ${TEMPDIR}/${PLUGIN_REPO_NAME}/${PLUGIN_REPO_NAME}
   rmdir ${TEMPDIR}/${PLUGIN_REPO_NAME}/${PLUGIN_SRC_DIR}
 fi
-mv i18n/*.qm ${TEMPDIR}/${PLUGIN_REPO_NAME}/${PLUGIN_REPO_NAME}/i18n
+if [[ -d i18n ]]; then
+  mv i18n/*.qm ${TEMPDIR}/${PLUGIN_REPO_NAME}/${PLUGIN_REPO_NAME}/i18n
+else
+  if [[ -d .tx ]]; then
+    echo -e "\033[0;33mNo i18n folder is present, even though transifex is. Something seems to be going wrong.\033[0m"
+  fi
+fi
 
 pushd ${TEMPDIR}/${PLUGIN_REPO_NAME}
 zip -r ${CURDIR}/${ZIPFILENAME} ${PLUGIN_REPO_NAME}
