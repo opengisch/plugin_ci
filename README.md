@@ -50,5 +50,8 @@ There is an example of enabling unit tests in [the projectgenerator plugin](http
 # Sample plugins
   - https://github.com/opengisch/qgis_swiss_locator
   - https://github.com/opengisch/projectgenerator
+    - Contains unit tests against different QGIS versions
   - https://github.com/opengisch/qfieldsync
+  - https://github.com/opengisch/quick_attribution
+    - Minimal example
   
