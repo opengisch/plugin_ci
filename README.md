@@ -22,7 +22,7 @@ From the root directory of the plugin repository
 
 ```sh
 git submodule add https://github.com/opengisch/plugin_ci.git
-cp plugin_ci/templates/* .
+cp plugin_ci/templates/.* .
 ```
 
  - Activate travis-ci for the plugin repository
