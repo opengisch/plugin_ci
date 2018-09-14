@@ -41,7 +41,6 @@ cp plugin_ci/templates/.* .
 # Rules to follow
 
 - Put the code in a subfolder of the plugin and not in the main folder. The subfolder should have the same name as the repository.
-- 
 
 # Activating unit tests
 
