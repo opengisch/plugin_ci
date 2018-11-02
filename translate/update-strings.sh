@@ -74,6 +74,6 @@ then
   done
   git checkout -- .
 else
-  echo "No need to edit any translation files (.ts) because no no python file"
+  echo "No need to edit any translation files (.ts) because no python file"
   echo "has been updated since the last update translation. "
 fi
