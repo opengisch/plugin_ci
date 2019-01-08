@@ -44,11 +44,11 @@ cp plugin_ci/templates/.* .
 
 # Activating unit tests
 
-There is an example of enabling unit tests in [the projectgenerator plugin](https://github.com/opengisch/projectgenerator/blob/master/.travis.yml).
+There is an example of enabling unit tests as a precondition for deployment in [the QGIS Model Baker plugin](https://github.com/opengisch/QgisModelBaker/blob/master/.travis.yml).
 
 # Sample plugins
   - https://github.com/opengisch/qgis_swiss_locator
-  - https://github.com/opengisch/projectgenerator
+  - https://github.com/opengisch/QgisModelBaker
     - Contains unit tests against different QGIS versions
   - https://github.com/opengisch/qfieldsync
   - https://github.com/opengisch/quick_attribution
