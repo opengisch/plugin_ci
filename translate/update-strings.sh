@@ -51,7 +51,7 @@ done
 if [ ${UPDATE} == true ]
 # retrieve all python files
 then
-  if [[ -z $(git status -s) ]]; then
+  if [[ -z $(git status -s | sed -n '/ .gitmodules$/!p') ]]; then
     # Preprocess python files for pylupdate and utf-8
     # pylupdate treats any string as latin-1, unless it's inside a trUtf8 call.
     # On the other hand, trUtf8 is deprecated by Qt itself.
