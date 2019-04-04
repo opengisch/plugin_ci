@@ -1,7 +1,7 @@
 # plugin_ci
 
-Contains scripts to do automated testing and deployment for QGIS plugins.
-These scripts are written for and tested on the services GitHub, travis-ci and transifex.
+Contains scripts to perform automated testing and deployment for QGIS plugins.
+These scripts are written for and tested on GitHub, Travis-CI and Transifex.
 
 ## Base functionality
 
