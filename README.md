@@ -40,7 +40,8 @@ cp plugin_ci/templates/.* .
  
 # Rules to follow
 
-- Put the code in a subfolder of the plugin and not in the main folder. The subfolder should have the same name as the repository.
+- Put the code in a subfolder of the plugin and not in the main folder. The subfolder should have the same name as the repository. If the repository contains the `qgis_` prefix, the folder must not contain this prefix.
+- Use `version=dev` in the metadata.txt file
 
 # Activating unit tests
 
