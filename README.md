@@ -35,7 +35,7 @@ cp plugin_ci/templates/.* .
    - `GH_TOKEN`
      - https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/
      - activate *repo_deployment*.
-   - `TX_TOKEN`
+   - `TX_TOKEN` (optional)
      - Create a token on the transifex web interface
  
 # Rules to follow
