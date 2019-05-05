@@ -75,32 +75,6 @@ def create_release(release_files, changelog="", output="") -> str:
     conn.request('GET', url, headers=headers)
     response = conn.getresponse()
     release = json.loads(response.read().decode())
-    if 'tag_name' in release and release['tag_name'] == os.environ['TRAVIS_TAG']:
-        print("Deleting release {}".format(release['tag_name']))
-        url = '/repos/{repo_slug}/releases/{id}'.format(
-            repo_slug=os.environ['TRAVIS_REPO_SLUG'],
-            id=release['id'])
-        conn = http.client.HTTPSConnection('api.github.com')
-        conn.request('DELETE', url, headers=headers)
-        response = conn.getresponse()
-        if response.status == 204:
-            print('Existing release deleted!')
-            create_raw_data["target_commitish"] = release['target_commitish']
-            create_raw_data["name"] = release['name']
-            create_raw_data["body"] = release['body'] + create_raw_data["body"]
-            release_notes = create_raw_data["body"]
-        else:
-            print('Failed to delete release!')
-            print('Github API replied:')
-            print('{} {}'.format(response.status, response.reason))
-
-    data = json.dumps(create_raw_data)
-    url = '/repos/{repo_slug}/releases'.format(
-        repo_slug=os.environ['TRAVIS_REPO_SLUG'])
-    conn = http.client.HTTPSConnection('api.github.com')
-    conn.request('POST', url, body=data, headers=headers)
-    response = conn.getresponse()
-    release = json.loads(response.read().decode())
 
     if 'upload_url' not in release:
         print('Failed to create release!')
