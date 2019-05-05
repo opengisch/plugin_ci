@@ -126,6 +126,8 @@ def create_release(release_files, changelog="", output="") -> str:
             print('Github API replied:')
             print('{} {}'.format(response.status, response.reason))
             print(repr(json.loads(result.decode())))
+            print('File:')
+            print('  Size: {}'.format(os.path.getsize(release_file)))
 
     if output:
         with open(output, 'w') as f:
