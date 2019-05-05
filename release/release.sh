@@ -38,7 +38,7 @@ fi
 echo -e " \e[33mExporting plugin version ${TRAVIS_TAG} from folder ${PLUGIN_SRC_DIR}"
 # create a stash to save uncommitted changes (metadata)
 STASH=$(git stash create)
-git archive --prefix=${PLUGIN_REPO_NAME}/ -o ${CURDIR}/${PLUGIN_REPO_NAME}-${RELEASE_VERSION}.tar ${STASH} ${PLUGIN_SRC_DIR}
+git archive --prefix=${PLUGIN_REPO_NAME}/ -o ${CURDIR}/${PLUGIN_REPO_NAME}-${RELEASE_VERSION}.tar ${STASH:-HEAD} ${PLUGIN_SRC_DIR}
 
 # include submodules as part of the tar
 echo "also archive submodules..."
