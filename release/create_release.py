@@ -91,7 +91,8 @@ def create_release(release_files, changelog="", output="") -> str:
         print('Upload to {}'.format(url))
 
         with open(release_file, 'rb') as f:
-            conn.request('POST', url, f, headers)
+            data = f.read()
+            conn.request('POST', url, data, headers)
 
         response = conn.getresponse()
         result = response.read()
