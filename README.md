@@ -1,3 +1,5 @@
+# This plugin is deprecated in favour of our new https://github.com/opengisch/qgis-plugin-ci/
+
 # plugin_ci
 
 Contains scripts to perform automated testing and deployment for QGIS plugins.
